@@ -10,7 +10,7 @@
     </h2>
 
     <p>
-        {{ question.question_desc }}
+        {{ question.question_desc|safe|linebreaks }}
     </p>
 
     <a href="/main/{{question.id}}/submit" class="ui green button">

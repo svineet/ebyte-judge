@@ -45,5 +45,3 @@ class Submission(models.Model):
                              default="PYT")
     submitter = models.ForeignKey('Participant')
     question_answered = models.ForeignKey('Question')
-
-
