@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ subm.submit_time|time }}</td>
                     <td>{{ subm.program|slice:":50" }}</td>
-                    <td>{{ subm.status }}</td>
+                    <td>{{ subm.get_status_display }}</td>
                 </tr>
             {% endfor %}
         </tbody>
