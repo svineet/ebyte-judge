@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Judge: {{ question.question_title }}
+{% endblock %}
+
+{% block content %}
+    <h2 class="ui header">
+        {{ question.question_title }}
+    </h2>
+
+    <p>
+        {{ question.question_desc }}
+    </p>
+
+    <a href="/main/{{question.id}}/submit" class="ui green button">
+        Submit Solution
+    </a>
+{% endblock %}
+

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Judge: all submissions
+{% endblock %}
+
+
+{% block content %}
+    TODO: AUTO REFRESH WITH JS/fetch and update
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>Submit time</th>
+                <th>Code</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subm in submissions %}
+                <tr>
+                    <td>{{ subm.submit_time|time }}</td>
+                    <td>{{ subm.program|slice:":50" }}</td>
+                    <td>{{ subm.status }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock %}

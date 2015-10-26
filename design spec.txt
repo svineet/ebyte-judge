@@ -1,0 +1,28 @@
+Process:
+
+* Splash page
+* user logs in
+* navbar with links to leaderboard, etc.
+* list of problems
+* submit page
+* user submits
+* show user submissions list and status
+* thread finishes exec
+* updates status of relevant submission
+* shown in submissions
+
+Question:
+  text
+  title
+  given_input
+  expected_output
+
+Submission:
+  time_of_submission
+  status
+  program
+  planguage
+  submitter
+
+
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.css">
+</head>
+<body>
+    <div class="ui grid container">
+        <div class="column">
+            <br>
+            <h1 class="ui centered huge header">
+                EBYTE Judge
+            </h1>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="ui message" onclick="this.remove()">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+                
+
+            <div class="ui blue inverted large menu">
+                <a href="/main/" class="item">
+                    Questions
+                </a>
+                <a href="/main/submissions" class="item">
+                    My Submissions
+                </a>
+                <a href="/main/leaderboard" class="item">
+                    Leaderboard
+                </a>
+
+                <div class="right menu">
+                    <div class="item">
+                        Welcome {{ request.user.username }}
+                    </div>
+                    {% if request.user.participant %}
+                        <div class="item">
+                            Score: {{ request.user.participant.score }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="ui red segment">
+                {% block content %}
+                
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <div class="ui small centered header">
+        Made with <i class="small heart icon" style="display: inline; margin:0;"></i> by Sai Vineet
+    </div>
+</body>
+</html>

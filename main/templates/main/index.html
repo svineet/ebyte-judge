@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Judge: index
+{% endblock %}
+
+{% block content %}
+    {% if questions %}
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Question</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td>
+                            <a class="ui header" href="/main/{{ question.id }}">
+                                {{ question.question_title }}
+                            </a>
+                        </td>
+
+                        <td>
+                            {{ question.question_desc }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2>No questions yet</h2>
+    {% endif %}
+{% endblock %}
+

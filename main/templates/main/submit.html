@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Submit for {{ question.question_title }}
+{% endblock %}
+
+
+{% block content %}
+
+    {% if errors %}
+        <div class="ui message">
+            <ul>
+                {% for error in errors %}
+                    <li>{{error}}</li>        
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+        
+    <form action="#" class="ui form" method="post">
+        {% csrf_token %}
+        <div class="field">
+            <label>
+                Code
+            </label>
+            <textarea name="program" rows="20"></textarea>
+        </div>
+        <div class="field">
+            <select name="plang">
+                <option value="-">Select Language</option>
+                <option value="PYT">Python</option>
+                <option value="JAV">Java</option>
+                <option value="CPP">C++</option>
+            </select>
+        </div>
+
+        <input type="submit" class="ui green button">
+    </form>
+{% endblock %}
