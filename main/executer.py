@@ -29,6 +29,9 @@ def execute_py(submission):
     tmpin = open(tmp_in, "wr")
     tmpin.write(input_)
 
+    tmp_file.close()
+    tmpin.close()
+
     try:
         out = subprocess.check_output(["python", tmp_prog],
             stdin=open(tmp_in), stderr=subprocess.STDOUT)
@@ -50,9 +53,6 @@ def execute_py(submission):
     except subprocess.CalledProcessError:
         submission.status = Submission.RUNTIME_ERROR
         submission.save()
-
-    tmp_file.close()
-    tmpin.close()
 
 
 def execute_java(submission):
