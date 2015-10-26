@@ -1,5 +1,6 @@
 *.pyo
 *.pyc
+*.sqlite3
 .installed.cfg
 bin
 develop-eggs
