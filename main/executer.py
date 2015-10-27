@@ -35,6 +35,7 @@ def execute_py(submission):
     try:
         out = subprocess.check_output(["python", tmp_prog],
             stdin=open(tmp_in), stderr=subprocess.STDOUT)
+
         if out==expected_out:
             submission.status = Submission.ACCEPTED_ANSWER
             submission.submitter.score += 100

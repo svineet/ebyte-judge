@@ -7,8 +7,7 @@ from django.contrib.auth import login as login_django
 from django.contrib.auth import logout as logout_django
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from threading import Thread
 
 
@@ -36,6 +35,15 @@ def submit(request, question_id):
             instance.plang = request.POST['plang']
             instance.submitter = request.user.participant
             instance.question_answered = question
+
+            row = Submission.objects.filter(question_answered=question,
+                                            submitter=instance.submitter,
+                                            status=instance.ACCEPTED_ANSWER)
+            if row:
+                messages.add_message(request, messages.INFO,
+                    "You cannot re-submit a solved question.")
+                return redirect('index')
+
             instance.save()
 
             thr = Thread(target=execute, args=[instance])
@@ -44,7 +52,7 @@ def submit(request, question_id):
             messages.add_message(request, messages.INFO, 
                 "Submission successfully made! Now wait for it to be judged"
                 ", keep refreshing the My Submissions page!")
-            return HttpResponseRedirect('/main/submissions')
+            return redirect('list_submissions')
         else:
             return render(request, 'main/submit.html', 
                 {
@@ -87,7 +95,7 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login_django(request, user)
-        return HttpResponseRedirect('/main/')
+        return redirect('index')
     else:
         return render(request, 'main/login.html', {'message': 'invalid login'})
 
@@ -95,6 +103,6 @@ def login(request):
 @login_required
 def logout(request):
     logout_django(request)
-    return HttpResponseRedirect('/main/')
+    return redirect('index')
 
 
