@@ -11,6 +11,7 @@
             <tr>
                 <th>Submit time</th>
                 <th>Code</th>
+                <th>Question</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -19,6 +20,11 @@
                 <tr>
                     <td>{{ subm.submit_time|time }}</td>
                     <td>{{ subm.program|slice:":50" }}</td>
+                    <td>
+                        <a href="/main/{{ subm.question_answered.id }}">
+                            {{ subm.question_answered.question_title }}
+                        </a>
+                    </td>
                     <td>{{ subm.get_status_display }}</td>
                 </tr>
             {% endfor %}
