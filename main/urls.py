@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^login/$', views.login, name="login"),
     url(r'^logout/$', views.logout, name="logout"),
     url(r'^leaderboard/$', views.leaderboard, name="leaderboard"),
-    url(r'^submissions/$', views.list_submissions, name="list_submissions")
+    url(r'^submissions/$', views.list_submissions, name="list_submissions"),
+    url(r'^feed/$', views.list_activity, name="activity_feed")
 ]

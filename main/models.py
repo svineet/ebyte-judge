@@ -45,3 +45,16 @@ class Submission(models.Model):
                              default="PYT")
     submitter = models.ForeignKey('Participant')
     question_answered = models.ForeignKey('Question')
+
+
+class Activity(models.Model):
+    ACTIVITY_CHOICES = (
+        ("SCS", "Success"),
+        ("FAL", "Failure"),
+        ("INF", "Info")
+        )
+
+    time = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+    act_type = models.CharField(max_length=3,
+                                choices=ACTIVITY_CHOICES)

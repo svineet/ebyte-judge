@@ -1,6 +1,6 @@
 from .executer import execute
 from .forms import SubmissionForm
-from .models import Question, Participant, Submission
+from .models import Question, Participant, Submission, Activity
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from threading import Thread
+
+
+SUBMITTED_ACTIVITY_TEXT = "{} submitted a solution for the '{}' question!"
 
 
 @login_required
@@ -45,6 +48,12 @@ def submit(request, question_id):
                 return redirect('index')
 
             instance.save()
+
+            act = Activity()
+            act.text = SUBMITTED_ACTIVITY_TEXT.format(
+                request.user.username, question.question_title)
+            act.act_type = "INF"
+            act.save()
 
             thr = Thread(target=execute, args=[instance])
             thr.start()
@@ -105,4 +114,14 @@ def logout(request):
     logout_django(request)
     return redirect('index')
 
+
+# No login required for activity feed so that we can 
+# access it without making an account
+# todo: paginate
+def list_activity(request):
+    activities = Activity.objects.order_by('-time')[:10]
+    return render(request, 'main/activity_list.html', 
+        {
+            'activity_list': activities
+        })
 

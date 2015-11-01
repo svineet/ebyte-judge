@@ -23,7 +23,7 @@
                         </td>
 
                         <td>
-                            {{ question.question_desc }}
+                            {{ question.question_desc|slice:':50'}} ...
                         </td>
                     </tr>
                 {% endfor %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Judge: Activity Feed
+{% endblock %}
+
+{% block content %}
+    <h1 class="ui underlined header">Activity feed</h1>
+
+    {% if activity_list %}
+        <table class="ui celled table">
+            <thead>
+                <th>Time</th>
+                <th>Activity</th>
+            </thead>
+
+            <tbody>
+                {% for act in activity_list %}
+                    {% if act.act_type == 'SUC' %}
+                        <tr class="positive">
+                            <td>{{ act.time|time }}</td>
+                            <td>{{ act.text }}</td>
+                        </tr>
+                    {% elif act.act_type == 'INF' %}
+                        <tr class="warning">
+                            <td>{{ act.time|time }}</td>
+                            <td>{{ act.text }}</td>
+                        </tr>
+                    {% else %}
+                        <tr class="negative">
+                            <td>{{ act.time|time }}</td>
+                            <td>{{ act.text }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3>No activity to display yet!</h3>
+    {% endif %}
+
+{% endblock %}
