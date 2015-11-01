@@ -1,9 +1,14 @@
-from .models import Submission
+from .models import Submission, Activity
 
 import os
 import subprocess
 import random
 import re
+
+
+CORRECT_SUBMISSION_TEXT = "{} got the {} question right! +100 to them!"
+WRONG_SUBMISSION_TEXT = "{} got the {} question wrong! Better luck next time!"
+RTE_SUBMISSION_TEXT = "{} got a Runtime Error in the {} question! Better luck next time!"
 
 
 def execute(submission):
@@ -41,9 +46,21 @@ def execute_py(submission):
             submission.submitter.score += 100
             submission.submitter.save()
             submission.save()
+
+            act = Activity()
+            act.text = CORRECT_SUBMISSION_TEXT.format(
+                submission.submitter.user.username, submission.question_answered.question_title)
+            act.act_type = "SUC"
+            act.save()
         else:
             submission.status = Submission.WRONG_ANSWER
             submission.save()
+
+            act = Activity()
+            act.text = WRONG_SUBMISSION_TEXT.format(
+                submission.submitter.user.username, submission.question_answered.question_title)
+            act.act_type = "FAL"
+            act.save()
 
         from pprint import pprint
         print "input"   
@@ -56,6 +73,12 @@ def execute_py(submission):
         print e.output
         submission.status = Submission.RUNTIME_ERROR
         submission.save()
+
+        act = Activity()
+        act.text = RTE_SUBMISSION_TEXT.format(
+            submission.submitter.user.username, submission.question_answered.question_title)
+        act.act_type = "FAL"
+        act.save()
 
     try:
         os.remove(tmp_prog)
@@ -94,9 +117,21 @@ def execute_java(submission):
             submission.submitter.score += 100
             submission.submitter.save()
             submission.save()
+
+            act = Activity()
+            act.text = CORRECT_SUBMISSION_TEXT.format(
+                submission.submitter.user.username, submission.question_answered.question_title)
+            act.act_type = "SUC"
+            act.save()
         else:
             submission.status = Submission.WRONG_ANSWER
             submission.save()
+
+            act = Activity()
+            act.text = WRONG_SUBMISSION_TEXT.format(
+                submission.submitter.user.username, submission.question_answered.question_title)
+            act.act_type = "FAL"
+            act.save()
 
         from pprint import pprint
         print "input"   
@@ -109,6 +144,12 @@ def execute_java(submission):
         print e.output
         submission.status = Submission.RUNTIME_ERROR
         submission.save()
+
+        act = Activity()
+        act.text = RTE_SUBMISSION_TEXT.format(
+            submission.submitter.user.username, submission.question_answered.question_title)
+        act.act_type = "FAL"
+        act.save()
 
     try:
         os.remove(tmp_prog)
@@ -145,9 +186,21 @@ def execute_cpp(submission):
             submission.submitter.score += 100
             submission.submitter.save()
             submission.save()
+
+            act = Activity()
+            act.text = CORRECT_SUBMISSION_TEXT.format(
+                submission.submitter.user.username, submission.question_answered.question_title)
+            act.act_type = "SUC"
+            act.save()
         else:
             submission.status = Submission.WRONG_ANSWER
             submission.save()
+
+            act = Activity()
+            act.text = WRONG_SUBMISSION_TEXT.format(
+                submission.submitter.user.username, submission.question_answered.question_title)
+            act.act_type = "FAL"
+            act.save()
 
         from pprint import pprint
         print "input"   
@@ -160,6 +213,12 @@ def execute_cpp(submission):
         print e.output
         submission.status = Submission.RUNTIME_ERROR
         submission.save()
+
+        act = Activity()
+        act.text = RTE_SUBMISSION_TEXT.format(
+            submission.submitter.user.username, submission.question_answered.question_title)
+        act.act_type = "FAL"
+        act.save()
 
     try:
         os.remove(tmp_prog)
