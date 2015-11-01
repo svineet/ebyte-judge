@@ -19,7 +19,7 @@
             {% for subm in submissions %}
                 <tr>
                     <td>{{ subm.submit_time|time }}</td>
-                    <td>{{ subm.program|slice:":50" }} .../td>
+                    <td>{{ subm.program|slice:":50" }} ...</td>
                     <td>
                         <a href="/main/{{ subm.question_answered.id }}">
                             {{ subm.question_answered.question_title }}
