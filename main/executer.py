@@ -36,7 +36,7 @@ def execute_py(submission):
         out = subprocess.check_output(["python", tmp_prog],
             stdin=open(tmp_in), stderr=subprocess.STDOUT)
 
-        if out==expected_out:
+        if out.strip()==expected_out.strip():
             submission.status = Submission.ACCEPTED_ANSWER
             submission.submitter.score += 100
             submission.submitter.save()
@@ -45,12 +45,13 @@ def execute_py(submission):
             submission.status = Submission.WRONG_ANSWER
             submission.save()
 
-        print "input"
-        print input_
+        from pprint import pprint
+        print "input"   
+        pprint (input_)
         print "got: "
-        print out
+        pprint (out)
         print "expected: "
-        print expected_out
+        pprint (expected_out)
     except subprocess.CalledProcessError as e:
         print e.output
         submission.status = Submission.RUNTIME_ERROR
@@ -97,12 +98,13 @@ def execute_java(submission):
             submission.status = Submission.WRONG_ANSWER
             submission.save()
 
-        print "input"
-        print input_
+        from pprint import pprint
+        print "input"   
+        pprint (input_)
         print "got: "
-        print out
+        pprint (out)
         print "expected: "
-        print expected_out
+        pprint (expected_out)
     except subprocess.CalledProcessError as e:
         print e.output
         submission.status = Submission.RUNTIME_ERROR
@@ -147,12 +149,13 @@ def execute_cpp(submission):
             submission.status = Submission.WRONG_ANSWER
             submission.save()
 
-        print "input"
-        print input_
+        from pprint import pprint
+        print "input"   
+        pprint (input_)
         print "got: "
-        print out
+        pprint (out)
         print "expected: "
-        print expected_out
+        pprint (expected_out)
     except subprocess.CalledProcessError as e:
         print e.output
         submission.status = Submission.RUNTIME_ERROR
