@@ -34,9 +34,39 @@
                     {% endif %}
                 {% endfor %}
             </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2">
+                        <div class="ui right floated pagination menu">
+                            {% if activity_list.has_previous %}
+                                <a class="icon item" href="?page={{ activity_list.previous_page_number }}">
+                                    <i class="left chevron icon"></i>
+                                </a>
+                            {% else %}
+                                <a class="icon item">
+                                    <i class="left chevron icon"></i>
+                                <a>
+                            {% endif %}
+
+                            {% for page in activity_list.paginator.page_range %}
+                                <a href="?page={{ page }}" class="item">{{ page }}</a>
+                            {% endfor %}
+
+                            {% if activity_list.has_next %}
+                                <a class="icon item" href="?page={{ activity_list.next_page_number }}">
+                                    <i class="right chevron icon"></i>
+                                </a>
+                            {% else %}
+                                <a class="icon item">
+                                    <i class="right chevron icon"></i>
+                                <a>
+                            {% endif %}
+                      </div>
+                    </th>
+                </tr>
+            </tfoot>
         </table>
     {% else %}
         <h3>No activity to display yet!</h3>
     {% endif %}
-
 {% endblock %}

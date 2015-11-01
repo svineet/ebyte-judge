@@ -8,6 +8,7 @@ from django.contrib.auth import logout as logout_django
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from threading import Thread
 
 
@@ -117,9 +118,18 @@ def logout(request):
 
 # No login required for activity feed so that we can 
 # access it without making an account
-# todo: paginate
 def list_activity(request):
-    activities = Activity.objects.order_by('-time')[:10]
+    activities_list = Activity.objects.order_by('-time')[:10]
+    paginator = Paginator(activities_list, 10)
+    page = request.GET.get('page')
+
+    try:
+        activities = paginator.page(page)
+    except PageNotAnInteger:
+        activities = paginator.page(1)
+    except EmptyPage:
+        activities = paginator.page(paginator.num_pages)
+
     return render(request, 'main/activity_list.html', 
         {
             'activity_list': activities
