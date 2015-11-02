@@ -8,7 +8,7 @@
         {% endblock %}
     </title>
 
-    <link rel="stylesheet" href="{% static 'bower_components/semantic/dist/semantic.min.css' %}">
+    <link rel="stylesheet" href="{% static 'semantic/dist/semantic.min.css' %}">
     
 </head>
 <body>
@@ -29,16 +29,16 @@
                 
 
             <div class="ui blue inverted large menu">
-                <a href="/main/" class="item">
+                <a href="/" class="item">
                     Questions
                 </a>
-                <a href="/main/submissions" class="item">
+                <a href="/submissions" class="item">
                     My Submissions
                 </a>
-                <a href="/main/leaderboard" class="item">
+                <a href="/leaderboard" class="item">
                     Leaderboard
                 </a>
-                <a href="/main/feed/" class="item">
+                <a href="/feed/" class="item">
                     Activity Feed
                 </a>
 
@@ -50,7 +50,7 @@
                         <div class="item">
                             Score: {{ request.user.participant.score }}
                         </div>
-                        <a class="item" href="/main/logout">
+                        <a class="item" href="/logout">
                             Logout
                         </a>
                     {% endif %}

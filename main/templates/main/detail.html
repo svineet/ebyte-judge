@@ -13,7 +13,7 @@
         {{ question.question_desc|safe|linebreaks }}
     </p>
 
-    <a href="/main/{{question.id}}/submit" class="ui green button">
+    <a href="/{{question.id}}/submit" class="ui green button">
         Submit Solution
     </a>
 {% endblock %}

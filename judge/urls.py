@@ -6,7 +6,7 @@ from django.conf import settings
 urlpatterns = [
     # Examples:
     # url(r'^$', 'judge.views.home', name='home'),
-    url(r'^main/', include('main.urls')),
+    url(r'^', include('main.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
