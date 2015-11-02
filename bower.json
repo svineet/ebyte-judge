@@ -1,0 +1,22 @@
+{
+  "name": "ebyte-judge",
+  "homepage": "https://github.com/svineet/ebyte-judge",
+  "authors": [
+    "Sai Vineet <saivineet89@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic": "semantic-ui#~2.1.5"
+  }
+}

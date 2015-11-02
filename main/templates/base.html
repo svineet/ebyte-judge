@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +7,9 @@
         {% block title %}
         {% endblock %}
     </title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.css">
+
+    <link rel="stylesheet" href="{% static 'bower_components/semantic/dist/semantic.min.css' %}">
+    
 </head>
 <body>
     <div class="ui grid container">
