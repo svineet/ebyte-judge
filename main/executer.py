@@ -1,4 +1,5 @@
 from .models import Submission, Activity
+from judge import settings
 
 import os
 import subprocess
@@ -43,7 +44,8 @@ def execute_py(submission):
 
         if out.strip()==expected_out.strip():
             submission.status = Submission.ACCEPTED_ANSWER
-            submission.submitter.score += 100
+            time_diff = settings.END_TIME - submission.submit_time
+            submission.submitter.score += 100 + (time_diff.seconds/60)
             submission.submitter.save()
             submission.save()
 
@@ -114,7 +116,8 @@ def execute_java(submission):
 
         if out==expected_out:
             submission.status = Submission.ACCEPTED_ANSWER
-            submission.submitter.score += 100
+            time_diff = settings.END_TIME - submission.submit_time
+            submission.submitter.score += 100 + (time_diff.seconds/60)
             submission.submitter.save()
             submission.save()
 
@@ -183,7 +186,8 @@ def execute_cpp(submission):
                 stdin=open(tmp_in), stderr=subprocess.STDOUT)
         if out==expected_out:
             submission.status = Submission.ACCEPTED_ANSWER
-            submission.submitter.score += 100
+            time_diff = settings.END_TIME - submission.submit_time
+            submission.submitter.score += 100 + (time_diff.seconds/60)
             submission.submitter.save()
             submission.save()
 

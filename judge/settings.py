@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/1.8/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
+import os
+import datetime
+import pytz
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -106,5 +108,14 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'bower_components'),
 )
 
+LOGIN_URL = '/login'
 
-LOGIN_URL = '/main/login'
+
+# To be manually configured
+# Aware datetime object
+END_TIME = datetime.datetime(year=2015,
+                             month=11,
+                             day=4,
+                             hour=22,
+                             second=0,
+                             tzinfo=pytz.timezone(TIME_ZONE))
