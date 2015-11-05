@@ -123,7 +123,8 @@ def execute_java(submission):
     try:
         subprocess.check_call(["javac", tmp_prog])
         out = subprocess.check_output(["java", class_name],
-            stdin=open(tmp_in), stderr=subprocess.STDOUT)
+            stdin=open(tmp_in), stderr=subprocess.STDOUT,
+            timeout=5)
 
         if out==expected_out:
             submission.status = Submission.ACCEPTED_ANSWER
@@ -164,6 +165,15 @@ def execute_java(submission):
             submission.submitter.user.username, submission.question_answered.question_title)
         act.act_type = "FAL"
         act.save()
+    except subprocess.TimeoutExpired as e:
+        submission.status = Submission.TIMEOUT
+        submission.save()
+
+        act = Activity()
+        act.text = TME_SUBMISSION_TEXT.format(
+            submission.submitter.user.username, submission.question_answered.question_title)
+        act.act_type = "FAL"
+        act.save()
 
     try:
         os.remove(tmp_prog)
@@ -194,7 +204,8 @@ def execute_cpp(submission):
         if os.uname()[0] == 'Linux':
             subprocess.check_call(["c++", tmp_prog])
             out = subprocess.check_output(["./a.out"],
-                stdin=open(tmp_in), stderr=subprocess.STDOUT)
+                stdin=open(tmp_in), stderr=subprocess.STDOUT,
+                timeout=5)
         if out==expected_out:
             submission.status = Submission.ACCEPTED_ANSWER
             time_diff = settings.END_TIME - submission.submit_time
@@ -231,6 +242,15 @@ def execute_cpp(submission):
 
         act = Activity()
         act.text = RTE_SUBMISSION_TEXT.format(
+            submission.submitter.user.username, submission.question_answered.question_title)
+        act.act_type = "FAL"
+        act.save()
+    except subprocess.TimeoutExpired as e:
+        submission.status = Submission.TIMEOUT
+        submission.save()
+
+        act = Activity()
+        act.text = TME_SUBMISSION_TEXT.format(
             submission.submitter.user.username, submission.question_answered.question_title)
         act.act_type = "FAL"
         act.save()
