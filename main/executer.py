@@ -10,6 +10,7 @@ import re
 CORRECT_SUBMISSION_TEXT = "{} got the {} question right! +100 to them!"
 WRONG_SUBMISSION_TEXT = "{} got the {} question wrong! Better luck next time!"
 RTE_SUBMISSION_TEXT = "{} got a Runtime Error in the {} question! Better luck next time!"
+TME_SUBMISSION_TEXT =  "{} got a Timeout in the {} question! Try harder!"
 
 
 def execute(submission):
@@ -34,13 +35,14 @@ def execute_py(submission):
     tmp_file.close()
 
     tmp_in = "tmpin"+str(random.random())+".tmpin"
-    tmpin = open(tmp_in, "wr")
+    tmpin = open(tmp_in, "w")
     tmpin.write(input_)
     tmpin.close()
 
     try:
         out = subprocess.check_output(["python", tmp_prog],
-            stdin=open(tmp_in), stderr=subprocess.STDOUT)
+                stdin=open(tmp_in), stderr=subprocess.STDOUT,
+                timeout=5)
 
         if out.strip()==expected_out.strip():
             submission.status = Submission.ACCEPTED_ANSWER
@@ -65,19 +67,28 @@ def execute_py(submission):
             act.save()
 
         from pprint import pprint
-        print "input"   
+        pprint ("input")  
         pprint (input_)
-        print "got: "
+        pprint ("got: ")
         pprint (out)
-        print "expected: "
+        pprint("expected: ")
         pprint (expected_out)
     except subprocess.CalledProcessError as e:
-        print e.output
+        print (e.output)
         submission.status = Submission.RUNTIME_ERROR
         submission.save()
 
         act = Activity()
         act.text = RTE_SUBMISSION_TEXT.format(
+            submission.submitter.user.username, submission.question_answered.question_title)
+        act.act_type = "FAL"
+        act.save()
+    except subprocess.TimeoutExpired as e:
+        submission.status = Submission.TIMEOUT
+        submission.save()
+
+        act = Activity()
+        act.text = TME_SUBMISSION_TEXT.format(
             submission.submitter.user.username, submission.question_answered.question_title)
         act.act_type = "FAL"
         act.save()
@@ -105,7 +116,7 @@ def execute_java(submission):
 
 
     tmp_in = "tmpin"+str(random.random())+".tmpin"
-    tmpin = open(tmp_in, "wr")
+    tmpin = open(tmp_in, "w")
     tmpin.write(input_)
     tmpin.close()
 
@@ -137,14 +148,14 @@ def execute_java(submission):
             act.save()
 
         from pprint import pprint
-        print "input"   
+        print ("input"   )
         pprint (input_)
-        print "got: "
+        print ("got: ")
         pprint (out)
-        print "expected: "
+        print ("expected: ")
         pprint (expected_out)
     except subprocess.CalledProcessError as e:
-        print e.output
+        print (e.output)
         submission.status = Submission.RUNTIME_ERROR
         submission.save()
 
@@ -174,7 +185,7 @@ def execute_cpp(submission):
     tmp_file.close()
 
     tmp_in = "tmpin"+str(random.random())+".tmpin"
-    tmpin = open(tmp_in, "wr")
+    tmpin = open(tmp_in, "w")
     tmpin.write(input_)
     tmpin.close()
 
@@ -207,14 +218,14 @@ def execute_cpp(submission):
             act.save()
 
         from pprint import pprint
-        print "input"   
+        print ("input"   )
         pprint (input_)
-        print "got: "
+        print ("got: ")
         pprint (out)
-        print "expected: "
+        print ("expected: ")
         pprint (expected_out)
     except subprocess.CalledProcessError as e:
-        print e.output
+        print (e.output)
         submission.status = Submission.RUNTIME_ERROR
         submission.save()
 
