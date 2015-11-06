@@ -115,7 +115,7 @@ LOGIN_URL = '/login'
 # Aware datetime object
 END_TIME = datetime.datetime(year=2015,
                              month=11,
-                             day=4,
-                             hour=22,
+                             day=7,
+                             hour=11,
                              second=0,
                              tzinfo=pytz.timezone(TIME_ZONE))

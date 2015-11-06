@@ -188,6 +188,7 @@ def execute_java(submission):
 def execute_cpp(submission):
     input_ = submission.question_answered.input_data
     expected_out = submission.question_answered.expected_output
+    expected_out = expected_out.replace('\r\n', '\n').replace('\r', '\n').strip()
 
     # weird random filename to prevent race conditions and
     # such problems where same file is fought for by
@@ -202,11 +203,13 @@ def execute_cpp(submission):
     tmpin.write(input_)
     tmpin.close()
 
+    output_filename = str(random.random())+".out"
+
     try:
         # This is very platform/compiler specific stuff.
         if os.uname()[0] == 'Linux':
-            subprocess.check_call(["c++", tmp_prog])
-            out = subprocess.check_output(["./a.out"],
+            subprocess.check_call(["c++", "-o", output_filename, tmp_prog])
+            out = subprocess.check_output(["./"+output_filename],
                 stdin=open(tmp_in), stderr=subprocess.STDOUT,
                 timeout=5)
             out = out.decode("ascii").strip()
@@ -264,6 +267,6 @@ def execute_cpp(submission):
     try:
         os.remove(tmp_prog)
         os.remove(tmp_in)
-        os.remove("a.out")
+        os.remove(output_filename)
     except:
         pass
