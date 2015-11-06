@@ -9,15 +9,18 @@
     </title>
 
     <link rel="stylesheet" href="{% static 'semantic/dist/semantic.min.css' %}">
+
+    <link rel="icon" 
+      type="image/png" 
+      href="{% static 'favicon.png' %}">
     
 </head>
 <body>
     <div class="ui grid container">
         <div class="column">
             <br>
-            <h1 class="ui centered huge header">
-                EBYTE Judge
-            </h1>
+            <img class="ui centered image" src="{% static 'logo.png' %}">         
+            <h1 class="ui center aligned header">EBYTE</h1>       
 
             {% if messages %}
                 {% for message in messages %}
