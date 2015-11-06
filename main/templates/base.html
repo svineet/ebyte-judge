@@ -19,8 +19,8 @@
     <div class="ui grid container">
         <div class="column">
             <br>
-            <img class="ui centered image" src="{% static 'logo.png' %}">         
-            <h1 class="ui center aligned header">EBYTE</h1>       
+            <img class="ui centered image" src="{% static 'logo.png' %}">
+            <h1 class="ui center aligned header">BYTE</h1>
 
             {% if messages %}
                 {% for message in messages %}
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="ui piled segment">
+            <div class="ui stacked segment">
                 {% block content %}
                 
                 {% endblock %}
