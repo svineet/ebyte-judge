@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="ui underlined header">Activity feed</h1>
+    <h1 class="ui icon center aligned header">
+        <i class="teal users icon"></i>
+        Activity feed
+    </h1>
 
     {% if activity_list %}
         <table class="ui celled table">
@@ -61,6 +64,11 @@
                                     <i class="right chevron icon"></i>
                                 <a>
                             {% endif %}
+
+                            <a class="item">
+                                Page {% if current_page_senpai %}
+                                {{current_page_senpai}}{% else %}1{% endif %} of {{activity_list.paginator.num_pages}}
+                            </a>
                       </div>
                     </th>
                 </tr>

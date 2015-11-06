@@ -75,7 +75,6 @@ def submit(request, question_id):
             })
 
 
-@login_required
 def leaderboard(request):
     users = Participant.objects.order_by('-score')
     return render(request, 'main/leaderboard.html', 
@@ -119,7 +118,7 @@ def logout(request):
 # No login required for activity feed so that we can 
 # access it without making an account
 def list_activity(request):
-    activities_list = Activity.objects.order_by('-time')[:10]
+    activities_list = Activity.objects.order_by('-time')
     paginator = Paginator(activities_list, 10)
     page = request.GET.get('page')
 
@@ -129,9 +128,9 @@ def list_activity(request):
         activities = paginator.page(1)
     except EmptyPage:
         activities = paginator.page(paginator.num_pages)
-
     return render(request, 'main/activity_list.html', 
         {
-            'activity_list': activities
+            'activity_list': activities,
+            'current_page_senpai': page
         })
 

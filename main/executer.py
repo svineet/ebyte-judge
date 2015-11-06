@@ -7,7 +7,7 @@ import random
 import re
 
 
-CORRECT_SUBMISSION_TEXT = "{} got the {} question right! +100 to them!"
+CORRECT_SUBMISSION_TEXT = "{} got the {} question right! +{} to them!"
 WRONG_SUBMISSION_TEXT = "{} got the {} question wrong! Better luck next time!"
 RTE_SUBMISSION_TEXT = "{} got a Runtime Error in the {} question! Better luck next time!"
 TME_SUBMISSION_TEXT =  "{} got a Timeout in the {} question! Try harder!"
@@ -23,8 +23,8 @@ def execute(submission):
 
 
 def execute_py(submission):
-    input_ = submission.question_answered.input_data
-    expected_out = submission.question_answered.expected_output
+    input_ = submission.question_answered.input_data.replace('\r', '')
+    expected_out = submission.question_answered.expected_output.replace('\r', '')
 
     # weird random filename to prevent race conditions and
     # such problems where same file is fought for by
@@ -43,6 +43,7 @@ def execute_py(submission):
         out = subprocess.check_output(["python", tmp_prog],
                 stdin=open(tmp_in), stderr=subprocess.STDOUT,
                 timeout=5)
+        out = out.decode("ascii").strip()
 
         if out.strip()==expected_out.strip():
             submission.status = Submission.ACCEPTED_ANSWER
@@ -53,7 +54,8 @@ def execute_py(submission):
 
             act = Activity()
             act.text = CORRECT_SUBMISSION_TEXT.format(
-                submission.submitter.user.username, submission.question_answered.question_title)
+                submission.submitter.user.username, submission.question_answered.question_title, 
+                submission.submitter.score)
             act.act_type = "SUC"
             act.save()
         else:
@@ -102,10 +104,9 @@ def execute_py(submission):
 
 def execute_java(submission):
     input_ = submission.question_answered.input_data
-    expected_out = submission.question_answered.expected_output
-    # expected_out = expected_out.replace('\r\n', '\n')
+    expected_out = submission.question_answered.expected_output.replace('\r\n', '\n').strip()
 
-    for i in re.split('\nclass ', submission.program)[1:]:
+    for i in re.split('class ', submission.program)[1:]:
         if re.search('\n\s*public static void main', i):
             class_name = re.search('(\w*)', i).group(1)
 
@@ -125,6 +126,7 @@ def execute_java(submission):
         out = subprocess.check_output(["java", class_name],
             stdin=open(tmp_in), stderr=subprocess.STDOUT,
             timeout=5)
+        out = out.decode("ascii").strip()
 
         if out==expected_out:
             submission.status = Submission.ACCEPTED_ANSWER
@@ -135,7 +137,8 @@ def execute_java(submission):
 
             act = Activity()
             act.text = CORRECT_SUBMISSION_TEXT.format(
-                submission.submitter.user.username, submission.question_answered.question_title)
+                submission.submitter.user.username, submission.question_answered.question_title,
+                submission.submitter.score)
             act.act_type = "SUC"
             act.save()
         else:
@@ -206,6 +209,8 @@ def execute_cpp(submission):
             out = subprocess.check_output(["./a.out"],
                 stdin=open(tmp_in), stderr=subprocess.STDOUT,
                 timeout=5)
+            out = out.decode("ascii").strip()
+
         if out==expected_out:
             submission.status = Submission.ACCEPTED_ANSWER
             time_diff = settings.END_TIME - submission.submit_time
@@ -215,7 +220,8 @@ def execute_cpp(submission):
 
             act = Activity()
             act.text = CORRECT_SUBMISSION_TEXT.format(
-                submission.submitter.user.username, submission.question_answered.question_title)
+                submission.submitter.user.username, submission.question_answered.question_title,
+                submission.submitter.score)
             act.act_type = "SUC"
             act.save()
         else:

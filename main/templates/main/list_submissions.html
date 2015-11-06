@@ -6,29 +6,38 @@
 
 
 {% block content %}
-    <table class="ui celled table">
-        <thead>
-            <tr>
-                <th>Submit time</th>
-                <th>Code</th>
-                <th>Question</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for subm in submissions %}
+    {% if submissions%}
+        <h1 class="ui center aligned icon header">
+            <i class="blue list icon"></i>
+            Submissions
+        </h1>
+        <table class="ui celled table">
+            <thead>
                 <tr>
-                    <td>{{ subm.submit_time|time }}</td>
-                    <td>{{ subm.program|slice:":50" }} ...</td>
-                    <td>
-                        <a href="/{{ subm.question_answered.id }}">
-                            {{ subm.question_answered.question_title }}
-                        </a>
-                    </td>
-                    <td>{{ subm.get_status_display }}</td>
+                    <th>Submit time</th>
+                    <th>Code</th>
+                    <th>Question</th>
+                    <th>Status</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for subm in submissions %}
+                    <tr>
+                        <td>{{ subm.submit_time|time }}</td>
+                        <td>{{ subm.program|slice:":50" }} ...</td>
+                        <td>
+                            <a href="/{{ subm.question_answered.id }}">
+                                {{ subm.question_answered.question_title }}
+                            </a>
+                        </td>
+                        <td>{{ subm.get_status_display }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2 class="ui header">No submissions yet!</h2>
+    {% endif %}
+    
     
 {% endblock %}
