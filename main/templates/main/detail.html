@@ -7,14 +7,24 @@
 {% block content %}
     <h2 class="ui header">
         {{ question.question_title }}
+        {% if solved %}
+            <i class="green checkmark icon" title="You have already solved this question!"></i>
+        {% endif %}
     </h2>
 
     <p>
         {{ question.question_desc|safe|linebreaks }}
     </p>
 
-    <a href="/{{question.id}}/submit" class="ui green button">
-        Submit Solution
-    </a>
+    {% if solved %}
+        <a href="" class="ui disabled green button">
+            Submit Solution
+        </a>
+        You have already solved this question!
+    {% else %}
+        <a href="/{{question.id}}/submit" class="ui green button">
+            Submit Solution
+        </a>
+    {% endif %}
 {% endblock %}
 

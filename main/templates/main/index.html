@@ -15,6 +15,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Question</th>
+                    <th>Solved</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +29,14 @@
 
                         <td>
                             {{ question.question_desc|slice:':50'}} ...
+                        </td>
+
+                        <td>
+                            {% if question.solved %}
+                                <i class="small green checkmark icon"></i>
+                            {% else %}
+                                <i class="minus icon"></i>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

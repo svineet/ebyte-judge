@@ -18,6 +18,11 @@ SUBMITTED_ACTIVITY_TEXT = "{} submitted a solution for the '{}' question!"
 @login_required
 def index(request):
     latest_question_list = Question.objects.all()
+    for q in latest_question_list:
+        row = Submission.objects.filter(question_answered=q,
+                                    submitter=request.user.participant,
+                                    status=Submission.ACCEPTED_ANSWER)
+        q.solved = True if row else False
     context = {'questions': latest_question_list}
     return render(request, 'main/index.html', context)
 
@@ -25,7 +30,17 @@ def index(request):
 @login_required
 def detail(request, question_id):
     q = get_object_or_404(Question, pk=question_id)
-    return render(request, 'main/detail.html', {'question': q})
+
+    row = Submission.objects.filter(question_answered=q,
+                                    submitter=request.user.participant,
+                                    status=Submission.ACCEPTED_ANSWER)
+    solved = True if row else False
+        
+    return render(request, 'main/detail.html', 
+        {
+            'question': q,
+            'solved': solved
+        })
 
 
 @login_required
